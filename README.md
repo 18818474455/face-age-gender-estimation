@@ -3,6 +3,10 @@
 [![Live Demo](https://img.shields.io/badge/demo-GitHub%20Pages-6366f1)](https://18818474455.github.io/face-age-gender-estimation/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
+<p align="center">
+  <img src="./assets/star-this-repo.gif" alt="喜欢这个项目吗？点击右上角 Star 支持一下">
+</p>
+
 基于 face-api.js 的移动端网页 Demo：定位一张照片中的人脸，并输出模型估计的年龄和二分类外观标签。网页可直接部署到 GitHub Pages，也可通过 Capacitor 打包为 Android/iOS 应用。
 
 > **重要说明：** 模型只能根据训练数据和照片外观做近似预测，结果不代表个人身份、性别认同或真实年龄。它可能对不同人群产生系统性误差。
