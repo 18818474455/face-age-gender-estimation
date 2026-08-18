@@ -1,0 +1,16 @@
+.DS_Store
+._*
+.idea/
+*.iml
+node_modules/
+.gradle/
+**/.gradle/
+**/build/
+**/.cxx/
+local.properties
+DerivedData/
+**/xcuserdata/
+android/app/src/main/assets/public/
+ios/App/App/public/
+dist/
+coverage/

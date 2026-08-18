@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="format-detection" content="telephone=no">
+    <title>人脸年龄与性别估计</title>
+    <meta name="description" content="在浏览器中运行的实验性人脸年龄与外观性别估计 Demo">
+    <meta name="theme-color" content="#6366f1">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app">
+        <header class="header">
+            <div class="header-icon">
+                <svg viewBox="0 0 48 48" fill="none">
+                    <circle cx="24" cy="16" r="8" stroke="#fff" stroke-width="2.5" fill="none"/>
+                    <path d="M12 40c0-6.627 5.373-12 12-12s12 5.373 12 12" stroke="#fff" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+                    <circle cx="38" cy="10" r="5" stroke="rgba(255,255,255,0.6)" stroke-width="1.5" fill="none"/>
+                    <path d="M41 7l3-3M44 4h-3M44 4v3" stroke="rgba(255,255,255,0.6)" stroke-width="1.5" stroke-linecap="round"/>
+                    <circle cx="10" cy="12" r="4" stroke="rgba(255,255,255,0.6)" stroke-width="1.5" fill="none"/>
+                    <line x1="10" y1="16" x2="10" y2="21" stroke="rgba(255,255,255,0.6)" stroke-width="1.5" stroke-linecap="round"/>
+                    <line x1="7" y1="19" x2="13" y2="19" stroke="rgba(255,255,255,0.6)" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+            </div>
+            <h1>人脸年龄与性别估计</h1>
+            <p class="subtitle">人脸定位 · 外观分类 · 年龄估算</p>
+        </header>
+
+        <div class="status-bar" id="statusBar">
+            <div class="status-dot" id="statusDot"></div>
+            <span id="statusText">正在加载检测模型...</span>
+        </div>
+
+        <div class="usage-notice">
+            <strong>实验性演示：</strong>结果只是模型根据外观给出的二分类与年龄估计，不代表个人身份或自我认同。请勿用于招聘、教育、金融、执法、医疗等高风险决策。
+        </div>
+
+        <!-- 上传区域 -->
+        <div class="card" id="uploadCard">
+            <div class="upload-area" id="uploadArea">
+                <svg class="upload-icon" viewBox="0 0 48 48" fill="none">
+                    <rect x="6" y="10" width="36" height="28" rx="4" stroke="currentColor" stroke-width="2.5"/>
+                    <circle cx="18" cy="22" r="4" stroke="currentColor" stroke-width="2"/>
+                    <path d="M6 32l10-8 6 5 8-10 12 13" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <p class="upload-text">点击选择或拍摄照片</p>
+                <p class="upload-hint">支持 JPG / PNG，建议包含清晰人脸</p>
+            </div>
+            <input type="file" id="fileInput" accept="image/*" hidden>
+            <div class="btn-group">
+                <button class="btn btn-primary" id="btnAlbum">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+                    相册选择
+                </button>
+                <button class="btn btn-secondary" id="btnCamera">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg>
+                    拍摄照片
+                </button>
+            </div>
+        </div>
+
+        <!-- 图片预览 -->
+        <div class="card" id="previewCard" style="display:none">
+            <div class="card-top">
+                <h3>已选择图片</h3>
+                <button class="btn-link" id="btnReselect">重新选择</button>
+            </div>
+            <div class="canvas-wrap">
+                <canvas id="previewCanvas"></canvas>
+            </div>
+            <button class="btn btn-accent btn-block" id="btnDetect" disabled>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+                开始估计
+            </button>
+        </div>
+
+        <!-- 检测结果 -->
+        <div id="resultsArea" style="display:none">
+            <!-- 检测结果图 -->
+            <div class="card">
+                <div class="step-header">
+                    <span class="step-num">1</span>
+                    <div>
+                        <h3>人脸定位与模型估计</h3>
+                        <p class="step-desc">SSD MobileNet v1 · 68点Landmark · AgeGenderNet · &lt;12岁归为儿童</p>
+                    </div>
+                </div>
+                <div class="canvas-wrap">
+                    <canvas id="resultCanvas"></canvas>
+                </div>
+                <div class="info-box" id="detectionInfo"></div>
+            </div>
+
+            <!-- 人脸详情卡片 -->
+            <div id="faceCards"></div>
+
+            <!-- 汇总统计 -->
+            <div class="card" id="summaryCard" style="display:none">
+                <h3 class="stats-title">检测统计</h3>
+                <div class="stats-grid" id="statsGrid"></div>
+            </div>
+        </div>
+
+        <!-- 加载遮罩 -->
+        <div class="overlay" id="overlay" style="display:none">
+            <div class="overlay-content">
+                <div class="spinner"></div>
+                <p id="overlayText">正在检测...</p>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

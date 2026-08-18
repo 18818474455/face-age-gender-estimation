@@ -1,0 +1,20 @@
+{
+  "name": "face-age-gender-estimation",
+  "version": "1.0.0",
+  "description": "Browser demo for face detection and appearance-based age/gender estimation",
+  "scripts": {
+    "build": "node --check docs/app.js",
+    "serve": "python3 -m http.server 8080 --directory docs",
+    "cap:sync": "npx cap sync",
+    "cap:open:android": "npx cap open android",
+    "cap:open:ios": "npx cap open ios"
+  },
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "@capacitor/android": "^8.2.0",
+    "@capacitor/cli": "^8.2.0",
+    "@capacitor/core": "^8.2.0",
+    "@capacitor/ios": "^8.2.0"
+  }
+}

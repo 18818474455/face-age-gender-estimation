@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">AI性别检测</string>
+    <string name="title_activity_main">AI性别检测</string>
+    <string name="package_name">com.ai.genderdetection</string>
+    <string name="custom_url_scheme">com.ai.genderdetection</string>
+</resources>
