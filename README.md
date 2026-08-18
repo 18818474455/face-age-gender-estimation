@@ -71,7 +71,6 @@ capacitor.config.json # Capacitor 配置
 
 - [Face Blemish Remover](https://github.com/18818474455/face-blemish-remover)
 - [Body Slimming Demo](https://github.com/18818474455/body-slimming-demo)
-- [Human Skin-tone Pixel Detection](https://github.com/18818474455/human-skin-tone-detection)
 - [Liangzai](https://github.com/18818474455/liangzai) — 商业级跨平台影像处理 SDK 项目主页
 
 ## 许可证
