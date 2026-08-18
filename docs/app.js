@@ -8,8 +8,8 @@ const FACE_API_CDN = [
     "https://unpkg.com/face-api.js@0.22.2/dist/face-api.min.js",
 ];
 const WEIGHTS_CDN = [
-    "https://cdn.jsdelivr.net/gh/justadudewhohacks/face-api.js@master/weights",
-    "https://raw.githubusercontent.com/justadudewhohacks/face-api.js/master/weights",
+    "https://cdn.jsdelivr.net/gh/justadudewhohacks/face-api.js@0.22.2/weights",
+    "https://raw.githubusercontent.com/justadudewhohacks/face-api.js/0.22.2/weights",
 ];
 
 class GenderDetector {
